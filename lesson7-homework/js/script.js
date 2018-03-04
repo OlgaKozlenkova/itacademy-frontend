@@ -80,11 +80,40 @@
         /*button*/
         $('#change-slider-button').on('click', function () {
             var index = $('#slider-index').val();
-            if (isNaN(index)) {
-                return;
-            } else {
+            if (!isNaN(index)) {
                 $(".lp-slider2").trigger("to.owl.carousel", index - 1);
             }
+        })
+        /*Доп задание*/
+        $(".lp-slider3").owlCarousel({
+            items: 1,
+            nav: true,
+            navText: ['<i class="fas fa-angle-left"></i>', '<i class="fas fa-angle-right"></i>']
+        });
+        $(".lp-slider4").owlCarousel({
+            items: 3,
+            nav: true,
+            navText: ['<i class="fas fa-angle-left"></i>', '<i class="fas fa-angle-right"></i>'],
+            dotsEach: true
+        });
+        $(".lp-slider3").on('changed.owl.carousel', function (e) {
+            console.log('slider 3 changed to item ' + e.item.index);
+            if (e.item.index == 0) {
+                $(".lp-slider4").trigger("to.owl.carousel", 0);
+            } else if (e.item.index < 8) {
+                $(".lp-slider4").trigger("to.owl.carousel", e.item.index - 1);
+            } else {
+                $(".lp-slider4").trigger("to.owl.carousel", 7);
+            }
+        });
+        $(".lp-slider4 img").on('click', function (e) {
+            var sliderindex = $(e.target).data('index');
+            console.log(sliderindex);
+            $(".lp-slider3").trigger("to.owl.carousel", sliderindex);
+            if (sliderindex == 0 || sliderindex == 9) {
+                return;
+            }
+            $(".lp-slider4").trigger("to.owl.carousel", sliderindex - 1);
         })
 
     });
