@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Изучение Angular</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-locale_ru-by.js"></script>
+    <script src="js/app.js"></script>
+</head>
+
+<body ng-controller="myCtrl">
+    <h1 class="mt-5 mb-5">{{priceTitle}} от {{priceDate | date:'shortDate'}}</h1>
+    <p>
+        <span>Search:</span>
+        <input ng-model="priceSearch" type="text" class="form-control">
+    </p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th ng-click="setOrder('image')" ng-class="{reverse: priceReverse}">Изображение</th>
+                <th ng-click="setOrder('name')" ng-class="{reverse: priceReverse}">Наименование</th>
+                <th ng-click="setOrder('price')" ng-class="{reverse: priceReverse}">Цена</th>
+                <th ng-click="setOrder('discount')" ng-class="{reverse: priceReverse}">Скидка</th>
+                <th>Цена со скидкой</th>
+                <th>Дата завоза</th>
+                <th>Удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="price in priceList | filter:priceSearch | orderBy:priceOrder:priceReverse" ng-style="price.discount && {'background-color':'#D46A6A'}">
+                <td>{{$index+1}}</td>
+                <td><img src="{{price.image}}"></td>
+                <td>{{price.name}}</td>
+                <td>{{price.price | currency}}</td>
+                <td>
+                    <span ng-show="price.discount">{{price.discount * 100}}%</span>
+                    <span ng-hide="price.discount">-</span>
+                </td>
+                <td>{{price.price * (1-price.discount) | currency}}</td>
+                <td>{{price.delivery | date:'yyyy.MM.dd'}}</td>
+                <td><button ng-click="removeRow(price.name)" type="button" class="btn btn-info">Удалить</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <form ng-submit="submitForm()">
+        <label for="nameform"><b>Наименование</b></label><br>
+        <input type="text" ng-model="nameform" id="nameform"><br>
+        <label for="priceform"><b>Цена</b></label><br>
+        <input type="text" ng-model="priceform" id="priceform"><br>
+        <label for="discountform"><b>Скидка</b></label><br>
+        <input type="text" ng-model="discountform" id="discountform"><br>
+        <button type="submit" id="submit" class="btn btn-info">Добавить</button>
+    </form>
+</body>
+
+</html>

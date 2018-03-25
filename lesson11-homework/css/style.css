@@ -1,0 +1,6 @@
+.red {
+    color:red;
+}
+tbody tr:nth-child(even) {
+    background-color: #8B949A;
+}
